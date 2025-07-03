@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI系统决策框架评分工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            background: #f8f9fa;
+            border-left: 5px solid #4facfe;
+        }
+
+        .section h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .criteria {
+            display: grid;
+            gap: 15px;
+        }
+
+        .criterion {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .criterion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .criterion-title {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+
+        .score-display {
+            background: #4facfe;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .slider-container {
+            margin: 15px 0;
+        }
+
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4facfe;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4facfe;
+            cursor: pointer;
+            border: none;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .description {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .result-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .total-score {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .recommendation {
+            font-size: 1.2em;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .reset-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .reset-btn:hover {
+            background: #c0392b;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .header, .content {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI系统决策框架</h1>
+            <p>工作流 vs 智能体 - 科学评分助手</p>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h3>📊 项目需求评估</h3>
+                <div class="criteria">
+                    <div class="criterion">
+                        <div class="criterion-header">
+                            <span class="criterion-title">任务复杂度</span>
+                            <span class="score-display" id="complexity-score">5</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" min="1" max="10" value="5" class="slider" id="complexity">
+                            <div class="slider-labels">
+                                <span>简单固定流程</span>
+                                <span>复杂动态决策</span>
+                            </div>
+                        </div>
+                        <div class="description">评估任务是否需要动态决策和自适应能力</div>
+                    </div>
+                    
+                    <div class="criterion">
+                        <div class="criterion-header">
+                            <span class="criterion-title">可预测性要求</span>
+                            <span class="score-display" id="predictability-score">5</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" min="1" max="10" value="5" class="slider" id="predictability">
+                            <div class="slider-labels">
+                                <span>高度可预测</span>
+                                <span>允许不确定性</span>
+                            </div>
+                        </div>
+                        <div class="description">系统输出是否需要高度可预测和一致性</div>
+                    </div>
+                    
+                    <div class="criterion">
+                        <div class="criterion-header">
+                            <span class="criterion-title">调试重要性</span>
+                            <span class="score-display" id="debugging-score">5</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" min="1" max="10" value="5" class="slider" id="debugging">
+                            <div class="slider-labels">
+                                <span>易于调试</span>
+                                <span>调试不重要</span>
+                            </div>
+                        </div>
+                        <div class="description">系统故障时调试和维护的重要程度</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3>💰 资源与成本考量</h3>
+                <div class="criteria">
+                    <div class="criterion">
+                        <div class="criterion-header">
+                            <span class="criterion-title">成本敏感度</span>
+                            <span class="score-display" id="cost-score">5</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" min="1" max="10" value="5" class="slider" id="cost">
+                            <div class="slider-labels">
+                                <span>成本敏感</span>
+                                <span>成本不敏感</span>
+                            </div>
+                        </div>
+                        <div class="description">对Token消耗和计算资源成本的敏感程度</div>
+                    </div>
+                    
+                    <div class="criterion">
+                        <div class="criterion-header">
+                            <span class="criterion-title">开发资源</span>
+                            <span class="score-display" id="resources-score">5</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" min="1" max="10" value="5" class="slider" id="resources">
+                            <div class="slider-labels">
+                                <span>资源有限</span>
+                                <span>资源充足</span>
+                            </div>
+                        </div>
+                        <div class="description">可投入的开发和维护资源情况</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3>🎯 业务场景特性</h3>
+                <div class="criteria">
+                    <div class="criterion">
+                        <div class="criterion-header">
+                            <span class="criterion-title">创新需求</span>
+                            <span class="score-display" id="innovation-score">5</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" min="1" max="10" value="5" class="slider" id="innovation">
+                            <div class="slider-labels">
+                                <span>稳定可靠</span>
+                                <span>创新探索</span>
+                            </div>
+                        </div>
+                        <div class="description">业务是否需要创新性和探索性的解决方案</div>
+                    </div>
+                    
+                    <div class="criterion">
+                        <div class="criterion-header">
+                            <span class="criterion-title">错误容忍度</span>
+                            <span class="score-display" id="tolerance-score">5</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" min="1" max="10" value="5" class="slider" id="tolerance">
+                            <div class="slider-labels">
+                                <span>零容忍</span>
+                                <span>高容忍</span>
+                            </div>
+                        </div>
+                        <div class="description">业务场景对系统错误的容忍程度</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="result-section">
+                <h3>📈 评估结果</h3>
+                <div class="total-score" id="total-score">35</div>
+                <div>总分 (满分70分)</div>
+                <div class="recommendation" id="recommendation">
+                    正在计算推荐方案...
+                </div>
+                <button class="reset-btn" onclick="resetScores()">重置评分</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const sliders = document.querySelectorAll('.slider');
+        const scoreDisplays = document.querySelectorAll('.score-display');
+        const totalScoreElement = document.getElementById('total-score');
+        const recommendationElement = document.getElementById('recommendation');
+        
+        function updateScores() {
+            let total = 0;
+            
+            sliders.forEach((slider, index) => {
+                const value = parseInt(slider.value);
+                scoreDisplays[index].textContent = value;
+                total += value;
+            });
+            
+            totalScoreElement.textContent = total;
+            updateRecommendation(total);
+        }
+        
+        function updateRecommendation(score) {
+            let recommendation = '';
+            let bgColor = '';
+            
+            if (score <= 25) {
+                recommendation = '🔧 强烈推荐使用工作流 (Workflow)\n\n您的项目需求更适合结构化、可预测的解决方案。工作流能提供稳定的性能、清晰的调试路径和可控的成本。';
+                bgColor = 'linear-gradient(135deg, #27ae60 0%, #2ecc71 100%)';
+            } else if (score <= 45) {
+                recommendation = '⚖️ 建议混合方案\n\n考虑在关键路径使用工作流确保稳定性，在需要灵活性的部分引入智能体组件。这样可以平衡可靠性和创新性。';
+                bgColor = 'linear-gradient(135deg, #f39c12 0%, #e67e22 100%)';
+            } else {
+                recommendation = '🤖 推荐使用智能体 (Agent)\n\n您的项目具有高复杂度和创新需求，智能体的自主决策和适应能力将为您带来更大价值。请确保有足够的资源进行开发和维护。';
+                bgColor = 'linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%)';
+            }
+            
+            recommendationElement.textContent = recommendation;
+            document.querySelector('.result-section').style.background = bgColor;
+        }
+        
+        function resetScores() {
+            sliders.forEach(slider => {
+                slider.value = 5;
+            });
+            updateScores();
+        }
+        
+        // 添加事件监听器
+        sliders.forEach(slider => {
+            slider.addEventListener('input', updateScores);
+        });
+        
+        // 初始化
+        updateScores();
+    </script>
+</body>
+</html>

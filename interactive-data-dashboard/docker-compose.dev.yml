@@ -1,0 +1,269 @@
+# Docker Compose configuration for development environment
+# Optimized for development workflow with hot reloading and debugging
+
+version: '3.8'
+
+services:
+  # Development dashboard service
+  dashboard-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+      args:
+        BUILD_DATE: ${BUILD_DATE:-$(date -u +'%Y-%m-%dT%H:%M:%SZ')}
+        VCS_REF: ${VCS_REF:-$(git rev-parse --short HEAD)}
+        VERSION: ${VERSION:-dev}
+    image: interactive-data-dashboard:dev
+    container_name: dashboard-dev
+    restart: unless-stopped
+    ports:
+      - "${DEV_PORT:-8501}:8501"
+      - "${DEBUG_PORT:-5678}:5678"  # For debugpy
+    environment:
+      # Development-specific Streamlit configuration
+      - STREAMLIT_SERVER_HEADLESS=true
+      - STREAMLIT_SERVER_PORT=8501
+      - STREAMLIT_SERVER_ADDRESS=0.0.0.0
+      - STREAMLIT_SERVER_RUN_ON_SAVE=true
+      - STREAMLIT_SERVER_FILE_WATCHER_TYPE=poll
+      - STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
+      - STREAMLIT_SERVER_ENABLE_CORS=true
+      - STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION=false
+      - STREAMLIT_SERVER_MAX_UPLOAD_SIZE=500
+      
+      # Development application configuration
+      - MAX_DATA_POINTS=5000
+      - DEFAULT_THEME=plotly_white
+      - CHART_HEIGHT=400
+      - CHART_WIDTH=600
+      - ENABLE_CACHING=false
+      - DEBUG=true
+      - DEVELOPMENT=true
+      
+      # Python development settings
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONPATH=/app/src
+      
+      # Debugging
+      - DEBUGPY_ENABLE=${DEBUGPY_ENABLE:-false}
+      - DEBUGPY_WAIT=${DEBUGPY_WAIT:-false}
+    volumes:
+      # Mount source code for hot reloading
+      - ./src:/app/src:rw
+      - ./tests:/app/tests:rw
+      - ./pyproject.toml:/app/pyproject.toml:ro
+      - ./pytest.ini:/app/pytest.ini:ro
+      - ./Makefile:/app/Makefile:ro
+      - ./.env:/app/.env:rw
+      
+      # Development data volumes
+      - dev_data:/app/data
+      - dev_logs:/app/logs
+      - dev_uploads:/app/uploads
+      - dev_exports:/app/exports
+      - dev_cache:/app/.streamlit
+      
+      # Jupyter notebooks
+      - ./notebooks:/app/notebooks:rw
+    networks:
+      - dev_network
+    stdin_open: true
+    tty: true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard-dev.rule=Host(`dev.dashboard.localhost`)"
+      - "traefik.http.services.dashboard-dev.loadbalancer.server.port=8501"
+
+  # Jupyter notebook service for data exploration
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    image: interactive-data-dashboard:dev
+    container_name: dashboard-jupyter
+    restart: unless-stopped
+    ports:
+      - "${JUPYTER_PORT:-8888}:8888"
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=${JUPYTER_TOKEN:-dev-token}
+      - PYTHONPATH=/app/src
+    volumes:
+      - ./src:/app/src:rw
+      - ./notebooks:/app/notebooks:rw
+      - ./data:/app/data:rw
+      - jupyter_data:/home/streamlit/.jupyter
+    networks:
+      - dev_network
+    working_dir: /app/notebooks
+    command: >
+      sh -c '
+        pip install jupyterlab ipywidgets &&
+        jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root 
+        --NotebookApp.token="${JUPYTER_TOKEN:-dev-token}" 
+        --NotebookApp.password="" 
+        --NotebookApp.allow_origin="*" 
+        --NotebookApp.base_url="/jupyter"
+      '
+
+  # Redis for development caching
+  redis-dev:
+    image: redis:7-alpine
+    container_name: dashboard-redis-dev
+    restart: unless-stopped
+    ports:
+      - "${REDIS_DEV_PORT:-6380}:6379"
+    volumes:
+      - redis_dev_data:/data
+    networks:
+      - dev_network
+    command: redis-server --appendonly yes
+
+  # PostgreSQL for development database (optional)
+  postgres-dev:
+    image: postgres:15-alpine
+    container_name: dashboard-postgres-dev
+    restart: unless-stopped
+    ports:
+      - "${POSTGRES_DEV_PORT:-5433}:5432"
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-dashboard_dev}
+      - POSTGRES_USER=${POSTGRES_USER:-dev_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-dev_password}
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./sql/init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - dev_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-dev_user}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # MinIO for S3-compatible object storage (development)
+  minio-dev:
+    image: minio/minio:latest
+    container_name: dashboard-minio-dev
+    restart: unless-stopped
+    ports:
+      - "${MINIO_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-minioadmin}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-minioadmin}
+    volumes:
+      - minio_dev_data:/data
+    networks:
+      - dev_network
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  # Mailhog for email testing
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: dashboard-mailhog
+    restart: unless-stopped
+    ports:
+      - "${MAILHOG_SMTP_PORT:-1025}:1025"
+      - "${MAILHOG_WEB_PORT:-8025}:8025"
+    networks:
+      - dev_network
+
+  # Development proxy with SSL
+  traefik-dev:
+    image: traefik:v2.10
+    container_name: dashboard-traefik-dev
+    restart: unless-stopped
+    ports:
+      - "${TRAEFIK_HTTP_PORT:-80}:80"
+      - "${TRAEFIK_HTTPS_PORT:-443}:443"
+      - "${TRAEFIK_DASHBOARD_PORT:-8080}:8080"
+    environment:
+      - TRAEFIK_API_DASHBOARD=true
+      - TRAEFIK_API_INSECURE=true
+      - TRAEFIK_PROVIDERS_DOCKER=true
+      - TRAEFIK_PROVIDERS_DOCKER_EXPOSEDBYDEFAULT=false
+      - TRAEFIK_ENTRYPOINTS_HTTP_ADDRESS=:80
+      - TRAEFIK_ENTRYPOINTS_HTTPS_ADDRESS=:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/dev:/etc/traefik:ro
+      - traefik_dev_data:/data
+    networks:
+      - dev_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.localhost`)"
+      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+
+  # Code quality tools
+  code-quality:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    image: interactive-data-dashboard:dev
+    container_name: dashboard-code-quality
+    volumes:
+      - ./src:/app/src:ro
+      - ./tests:/app/tests:ro
+      - ./pyproject.toml:/app/pyproject.toml:ro
+      - code_quality_reports:/app/reports
+    networks:
+      - dev_network
+    profiles:
+      - tools
+    command: >
+      sh -c '
+        echo "Running code quality checks..." &&
+        black --check --diff src/ tests/ &&
+        ruff check src/ tests/ &&
+        mypy src/interactive_data_dashboard/ &&
+        pytest tests/ --cov=src/interactive_data_dashboard --cov-report=html:/app/reports/coverage &&
+        echo "Code quality checks completed!"
+      '
+
+networks:
+  dev_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
+
+volumes:
+  dev_data:
+    driver: local
+  dev_logs:
+    driver: local
+  dev_uploads:
+    driver: local
+  dev_exports:
+    driver: local
+  dev_cache:
+    driver: local
+  jupyter_data:
+    driver: local
+  redis_dev_data:
+    driver: local
+  postgres_dev_data:
+    driver: local
+  minio_dev_data:
+    driver: local
+  traefik_dev_data:
+    driver: local
+  code_quality_reports:
+    driver: local
