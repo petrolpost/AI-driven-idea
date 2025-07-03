@@ -1,0 +1,17 @@
+{
+  "markdown-mermaid.lightModeTheme": "default",
+  "markdown-mermaid.darkModeTheme": "dark",
+  "markdown-mermaid.languages": ["mermaid"],
+  "markdown.styles": [
+    "https://use.fontawesome.com/releases/v6.0.0/css/all.css"
+  ],
+  "markdown.preview.breaks": true,
+  "markdown.preview.linkify": true,
+  "markdown.preview.typographer": true,
+  "markdown.extension.preview.autoShowPreviewToSide": true,
+  "mermaidPreview.theme": "default",
+  "mermaidPreview.backgroundColor": "transparent",
+  "files.associations": {
+    "*.mmd": "mermaid"
+  }
+}
