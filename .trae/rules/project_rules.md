@@ -286,24 +286,38 @@ graph TD
 ```
 项目根目录/
 ├── 项目导航.md                 # 项目索引文件
+├── README.md                   # 项目集合总体说明
 ├── .trae/
 │   └── rules/
 │       └── project_rules.md    # 本规则文件
-└── [项目名称]/                 # 具体项目目录
-    ├── README.md               # 项目说明文档
-    ├── pyproject.toml          # Python项目配置
-    ├── .python-version         # Python版本指定
-    ├── Makefile               # 开发命令集合
-    ├── .gitignore             # Git忽略规则
-    ├── .env.example           # 环境变量示例
-    ├── main.py                # 主程序入口
-    ├── run.py                 # 运行脚本
-    ├── docs/                  # 文档目录
-    ├── examples/              # 示例代码
-    ├── tests/                 # 测试代码
-    ├── static/                # 静态资源
-    └── assets/                # 项目资源
+├── docs/                       # 全局文档目录
+│   └── 项目结构图.md           # 项目结构说明
+└── ideaed-projects/            # 所有项目的统一目录
+    └── [项目名称]/             # 具体项目目录
+        ├── README.md           # 项目说明文档
+        ├── idea-analysis.md    # 项目理念分析（可选）
+        ├── pyproject.toml      # Python项目配置（如适用）
+        ├── .python-version     # Python版本指定（如适用）
+        ├── Makefile           # 开发命令集合（如适用）
+        ├── .gitignore         # Git忽略规则（如适用）
+        ├── .env.example       # 环境变量示例（如适用）
+        ├── main.py            # 主程序入口（如适用）
+        ├── run.py             # 运行脚本（如适用）
+        ├── docs/              # 项目文档目录（如适用）
+        ├── examples/          # 示例代码（如适用）
+        ├── tests/             # 测试代码（如适用）
+        ├── static/            # 静态资源（如适用）
+        └── assets/            # 项目资源（如适用）
 ```
+
+**目录结构说明**:
+
+- 📁 **ideaed-projects/**: 所有项目的统一容器目录，便于项目管理和导航
+- 📄 **README.md**: 每个项目必须包含的核心文档，描述项目概况和使用方法
+- 📝 **idea-analysis.md**: 可选文档，用于记录项目的理念分析和深度思考
+- 🔧 **技术文件**: 根据项目类型和需求，选择性包含相应的技术配置文件
+- 📚 **理论项目**: 对于纯理论归档项目，通常只包含 README.md 和 idea-analysis.md
+- 🛠️ **工具项目**: 对于实际开发项目，包含完整的技术栈配置和代码结构
 
 ### 2. 命名规范
 
@@ -339,16 +353,17 @@ graph TD
 ```markdown
 | 项目名称 | 类型 | 成熟度 | 状态 | 描述 | 创建日期 |
 |----------|------|--------|------|------|----------|
-| [AI决策框架](ai-decision-framework/README.md) | 工具类 | 🟢 高 | ✅ 完成 | 7指标AI架构选择工具 | 2024-12 |
-| [DTS理论研究](clinical-data-transfer-specs/README.md) | 理论类 | 🟡 中 | 🔍 研究中 | 临床数据传输标准化理论 | 2025-01 |
+| [AI决策框架](ideaed-projects/ai-decision-framework/README.md) | 工具类 | 🟢 高 | ✅ 完成 | 7指标AI架构选择工具 | 2024-12 |
+| [DTS理论研究](ideaed-projects/clinical-data-transfer-specs/README.md) | 理论类 | 🟡 中 | 🔍 研究中 | 临床数据传输标准化理论 | 2025-01 |
 ```
 
 **项目链接规范**:
 
 - 📎 **项目名称链接**: 项目概览表格中的项目名称必须链接到对应项目目录下的 `README.md`文件
-- 🔗 **链接格式**: 使用相对路径格式 `[项目名称](项目目录/README.md)`
+- 🔗 **链接格式**: 使用相对路径格式 `[项目名称](ideaed-projects/项目目录/README.md)`
 - ✅ **链接验证**: 确保所有项目链接指向正确的README文件路径
 - 🔄 **链接维护**: 项目目录变更时同步更新导航文件中的链接
+- 📁 **统一目录**: 所有项目链接都应指向 `ideaed-projects/` 目录下的相应项目
 
 **成熟度标识说明**:
 

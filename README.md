@@ -42,10 +42,10 @@
 
 | 项目名称 | 状态 | 技术栈 | 类型 | 描述 |
 |----------|------|--------|------|------|
-| [AI决策框架](./ai-decision-framework/README.md) | ✅ 完成 | FastAPI, Python | 决策工具 | 7维度AI架构选择决策支持系统 |
-| [交互式数据仪表板](./interactive-data-dashboard/README.md) | ✅ 完成 | Streamlit, Plotly | 数据可视化 | 低代码数据可视化平台 |
-| [临床数据传输规范](./clinical-data-transfer-specs/README.md) | 📚 理论归档 | 理论研究 | 知识库 | DTS标准化理论体系 |
-| [数据平台决策工具包](./data-platform-decision-toolkit/README.md) | 🚧 进行中 | FastAPI, React | 决策工具 | Buy vs Build决策支持系统 |
+| [AI决策框架](./ideaed-projects/ai-decision-framework/README.md) | ✅ 完成 | FastAPI, Python | 决策工具 | 7维度AI架构选择决策支持系统 |
+| [交互式数据仪表板](./ideaed-projects/interactive-data-dashboard/README.md) | ✅ 完成 | Streamlit, Plotly | 数据可视化 | 低代码数据可视化平台 |
+| [临床数据传输规范](./ideaed-projects/clinical-data-transfer-specs/README.md) | 📚 理论归档 | 理论研究 | 知识库 | DTS标准化理论体系 |
+| [数据平台决策工具包](./ideaed-projects/data-platform-decision-toolkit/README.md) | 🚧 进行中 | FastAPI, React | 决策工具 | Buy vs Build决策支持系统 |
 | [n8n数据质量分析器](./n8n-data-quality-analyzer/README.md) | 🎯 规划中 | n8n, JavaScript | 自动化工具 | 数据质量自动化分析工具 |
 
 ## 🚀 快速开始
