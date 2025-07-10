@@ -4,5 +4,5 @@ Project Navigator MCP Tool
 """
 
 __version__ = "1.0.0"
-__author__ = "TRAE AI"
-__description__ = "Model Context Protocol server for Project Navigator" 
+__author__ = "petrelpost"
+__description__ = "Model Context Protocol server for Project Navigator"

@@ -35,12 +35,12 @@ Test Data:
     Test fixtures and sample data are located in the fixtures/ directory.
     Mock data is generated programmatically in test setup methods.
 
-Author: Interactive Data Dashboard Team
+Author: petrelpost
 License: MIT
 """
 
 __version__ = "1.0.0"
-__author__ = "Interactive Data Dashboard Team"
+__author__ = "petrelpost"
 
 # Test configuration
 TEST_CONFIG = {

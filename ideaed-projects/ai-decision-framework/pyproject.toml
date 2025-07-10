@@ -5,7 +5,7 @@ description = "AI工作流vs智能体决策框架 - 帮助选择最适合的AI�
 readme = "README.md"
 requires-python = ">=3.9"
 authors = [
-    {name = "AI决策框架项目组", email = "team@ai-decision-framework.com"}
+    {name = "petrelpost", email = "chg_g@msn.com"}
 ]
 keywords = ["ai", "decision", "framework", "workflow", "agent", "fastapi"]
 classifiers = [

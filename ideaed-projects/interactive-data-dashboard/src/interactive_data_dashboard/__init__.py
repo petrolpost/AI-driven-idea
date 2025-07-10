@@ -19,8 +19,8 @@ Version: 1.0.0
 """
 
 __version__ = "1.0.0"
-__author__ = "Interactive Data Dashboard Team"
-__email__ = "contact@example.com"
+__author__ = "petrelpost"
+__email__ = "chg_g@msn.com"
 __license__ = "MIT"
 __description__ = "Interactive data visualization dashboard built with Streamlit, Pandas, and Plotly"
 

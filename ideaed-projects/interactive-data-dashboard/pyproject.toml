@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "MIT"}
 authors = [
-    {name = "AI辅助项目开发团队", email = "contact@interactive-dashboard.dev"},
+    {name = "petrelpost", email = "chg_g@msn.com"},
 ]
 keywords = [
     "streamlit",
