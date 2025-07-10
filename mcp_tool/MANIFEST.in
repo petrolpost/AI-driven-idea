@@ -1,0 +1,10 @@
+include README.md
+include LICENSE
+include *.py
+include project_navigator_mcp/*.py
+include project_navigator_mcp/*.md
+include project_navigator_mcp/*.json
+include project_navigator_mcp/*.txt
+recursive-include project_navigator_mcp *
+global-exclude __pycache__
+global-exclude *.py[co] 

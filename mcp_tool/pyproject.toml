@@ -1,0 +1,78 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "project-navigator-mcp"
+version = "1.0.0"
+authors = [
+  { name="TRAE AI", email="ai@trae.com" },
+]
+description = "Model Context Protocol (MCP) server for Project Navigator"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+keywords = ["mcp", "ai", "project-management", "anthropic"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "mcp>=1.0.0",
+    "fastmcp>=2.0.0",
+    "requests>=2.25.0",
+    "python-dotenv>=0.19.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=22.0.0",
+    "isort>=5.0.0",
+    "mypy>=1.0.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/username/notion_storage"
+"Bug Reports" = "https://github.com/username/notion_storage/issues"
+"Source" = "https://github.com/username/notion_storage"
+"Documentation" = "https://github.com/username/notion_storage/blob/main/mcp_tool/README.md"
+
+[project.scripts]
+project-navigator-mcp = "project_navigator_mcp.mcp_server:main_sync"
+project-navigator-mcp-fast = "project_navigator_mcp.mcp_server_fastmcp:main"
+
+# 为uvx支持
+[tool.setuptools]
+py-modules = ["project_navigator_mcp"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["project_navigator_mcp*"]
+
+[tool.setuptools.package-data]
+project_navigator_mcp = ["*.md", "*.json", "*.txt"]
+
+# 开发工具配置
+[tool.black]
+line-length = 88
+target-version = ['py310']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true 

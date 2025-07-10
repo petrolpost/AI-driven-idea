@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "project-navigator": {
+      "command": "python",
+      "args": [
+        "D:/Workspace/Trae/mcps/notion_storage/mcp_tool/manual_test.py"
+      ],
+      "env": {
+        "API_BASE_URL": "http://127.0.0.1:8000"
+      }
+    }
+  }
+} 
