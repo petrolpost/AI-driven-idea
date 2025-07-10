@@ -27,7 +27,8 @@ def add_project(
     maturity: str,
     status: str,
     description: str,
-    readme_path: str = ""
+    readme_path: str = "",
+    source_url: str = ""
 ) -> str:
     """添加新的项目记录到导航系统中
     
@@ -38,6 +39,7 @@ def add_project(
         status: 项目状态 (✅ 完成, 🔍 研究中, 📋 规划中, 📚 已归档)
         description: 项目描述
         readme_path: README文件路径（可选，会自动生成）
+        source_url: 引用原文URL（可选）
     """
     # 如果没有提供readme_path，自动生成
     if not readme_path:
@@ -52,6 +54,7 @@ def add_project(
         "status": status,
         "description": description,
         "readme_path": readme_path,
+        "source_url": source_url if source_url else None,
         "created_date": date.today().isoformat()
     }
     
@@ -265,4 +268,4 @@ def main():
     mcp.run()
 
 if __name__ == "__main__":
-    main() 
+    main()

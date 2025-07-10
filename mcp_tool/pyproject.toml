@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "project-navigator-mcp"
 version = "1.0.0"
 authors = [
-  { name="TRAE AI", email="ai@trae.com" },
+  { name="petrelpost", email="chg_g@msn.com" },
 ]
 description = "Model Context Protocol (MCP) server for Project Navigator"
 readme = "README.md"

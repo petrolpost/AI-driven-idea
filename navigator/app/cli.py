@@ -31,6 +31,8 @@ def create_project_interactive():
     )
 
     description = Prompt.ask("Enter description")
+    
+    source_url = Prompt.ask("Enter source URL (optional)", default="")
 
     project_slug = name.lower().replace(" ", "-")
     readme_path = f"ideaed-projects/{project_slug}/README.md"
@@ -44,6 +46,7 @@ def create_project_interactive():
         "status": status,
         "description": description,
         "readme_path": readme_path,
+        "source_url": source_url if source_url else None,
         "created_date": datetime.date.today().isoformat()
     }
 
@@ -76,4 +79,4 @@ def main():
     app()
 
 if __name__ == "__main__":
-    main() 
+    main()

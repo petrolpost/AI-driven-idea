@@ -4,10 +4,10 @@
 
 我们目前支持以下版本的安全更新：
 
-| 版本 | 支持状态 |
-| --- | --- |
-| 1.0.x | :white_check_mark: |
-| < 1.0 | :x: |
+| 版本  | 支持状态 |
+| ----- | -------- |
+| 1.0.x | ✅       |
+| < 1.0 | ❌       |
 
 ## 报告漏洞
 
@@ -20,12 +20,13 @@
 相反，请通过以下方式之一私密地报告：
 
 1. **GitHub 安全报告**（推荐）
+
    - 访问项目的 [Security](https://github.com/username/notion_storage/security) 页面
    - 点击 "Report a vulnerability"
    - 填写详细信息
-
 2. **邮件报告**
-   - 发送邮件至：security@example.com
+
+   - 发送邮件至：chg_g@msn.com
    - 邮件主题：`[SECURITY] 项目名称 - 漏洞报告`
 
 ### 📋 报告内容

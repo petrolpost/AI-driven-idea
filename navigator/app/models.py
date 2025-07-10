@@ -14,6 +14,7 @@ class Project(Base):
     status = Column(String)
     description = Column(Text)
     readme_path = Column(String, nullable=False, unique=True)
+    source_url = Column(String)  # 引用原文URL
     created_date = Column(Date, default=datetime.date.today)
 
 # Pydantic Schemas
@@ -24,6 +25,7 @@ class ProjectBase(BaseModel):
     status: str | None = None
     description: str | None = None
     readme_path: str
+    source_url: str | None = None  # 引用原文URL
     created_date: datetime.date | None = None
 
 class ProjectCreate(ProjectBase):

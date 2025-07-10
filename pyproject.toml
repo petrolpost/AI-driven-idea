@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "navigator-admin"
 version = "0.1.0"
 authors = [
-  { name="AI Assistant", email="assistant@example.com" },
+  { name="petrelpost", email="chg_g@msn.com" },
 ]
 description = "Admin CLI for the project navigator"
 readme = "README.md"

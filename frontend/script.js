@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
             col_maturity: "Maturity",
             col_status: "Status",
             col_description: "Description",
+            col_source: "Source",
             col_created: "Created",
             footer: "Powered by FastAPI & Vanilla JS.",
             data_load_error: "Failed to load data. Is the backend running?",
@@ -37,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
             col_maturity: "成熟度",
             col_status: "状态",
             col_description: "描述",
+            col_source: "来源",
             col_created: "创建日期",
             footer: "由 FastAPI & Vanilla JS 强力驱动。",
             data_load_error: "数据加载失败。后端服务是否在运行？",
@@ -68,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error("Could not fetch projects:", error);
             const errorMsg = translations[currentLang]?.data_load_error || translations.en.data_load_error;
-            tableBody.innerHTML = `<tr><td colspan="6">${errorMsg}</td></tr>`;
+            tableBody.innerHTML = `<tr><td colspan="7">${errorMsg}</td></tr>`;
         }
     }
 
@@ -107,6 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${p.maturity}</td>
                 <td>${p.status}</td>
                 <td>${p.description}</td>
+                <td>${p.source_url ? `<a href="${p.source_url}" target="_blank">🔗</a>` : '-'}</td>
                 <td>${p.created_date}</td>
             </tr>
         `).join('');
