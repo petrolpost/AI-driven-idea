@@ -227,7 +227,7 @@ if data:
 
 - **项目维护者**: [petrelpost]
 - **邮箱**: chg_g@msn.com
-- **GitHub**: [@p](https://github.com/yourusername)etrolpost
+- **GitHub**: [@petrolpost](https://github.com/petrolpost)
 - **技术支持**: 提交Issue或发送邮件
 
 ## 🙏 致谢
