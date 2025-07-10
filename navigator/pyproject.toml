@@ -1,0 +1,20 @@
+[project]
+name = "nav-admin"
+version = "0.1.0"
+description = "Admin tool for the project navigator."
+authors = [{ name = "AI Assistant", email = "assistant@example.com" }]
+requires-python = ">=3.9"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "sqlalchemy",
+    "typer[all]",
+    "requests",
+    "rich",
+]
+
+[project.scripts]
+nav-admin = "app.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["app"] 

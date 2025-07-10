@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "navigator-admin"
+version = "0.1.0"
+authors = [
+  { name="AI Assistant", email="assistant@example.com" },
+]
+description = "Admin CLI for the project navigator"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "typer[all]",
+    "requests",
+    "rich"
+]
+
+[project.scripts]
+nav-admin = "navigator.app.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["navigator*"]
+exclude = ["tests*"] 

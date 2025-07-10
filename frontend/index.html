@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Navigator</title>
+    <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="language-switcher">
+            <button id="lang-switch">EN / 中文</button>
+        </div>
+        <header>
+            <h1 data-lang-key="title">项目导航</h1>
+            <p data-lang-key="subtitle">一个动态、可搜索的所有理念项目列表。</p>
+        </header>
+        <div class="controls">
+            <input type="text" id="searchInput" data-lang-key="search_placeholder" placeholder="按名称或描述搜索...">
+            <select id="statusFilter">
+                <option value="" data-lang-key="all_statuses">所有状态</option>
+                <option value="✅ 完成">✅ 完成</option>
+                <option value="🔍 研究中">🔍 研究中</option>
+                <option value="📋 规划中">📋 规划中</option>
+                <option value="📚 已归档">📚 已归档</option>
+            </select>
+            <select id="maturityFilter">
+                <option value="" data-lang-key="all_maturities">所有成熟度</option>
+                <option value="🟢 高">🟢 高</option>
+                <option value="🟡 中">🟡 中</option>
+                <option value="🔴 低">🔴 低</option>
+            </select>
+        </div>
+        <div class="table-container">
+            <table id="projectsTable">
+                <thead>
+                    <tr>
+                        <th data-sort="name" data-lang-key="col_name">名称</th>
+                        <th data-sort="project_type" data-lang-key="col_type">类型</th>
+                        <th data-sort="maturity" data-lang-key="col_maturity">成熟度</th>
+                        <th data-sort="status" data-lang-key="col_status">状态</th>
+                        <th data-sort="description" data-lang-key="col_description">描述</th>
+                        <th data-sort="created_date" data-lang-key="col_created">创建日期</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Project data will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        <footer>
+            <p data-lang-key="footer">由 FastAPI & Vanilla JS 强力驱动。</p>
+        </footer>
+    </div>
+    <script src="/assets/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root {
+    --bg-color: #f8f9fa;
+    --text-color: #212529;
+    --primary-color: #007bff;
+    --border-color: #dee2e6;
+    --header-bg: #ffffff;
+    --table-header-bg: #f1f3f5;
+    --hover-bg: #e9ecef;
+    --shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 2rem;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: var(--header-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    position: relative;
+}
+
+.language-switcher {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+}
+
+#lang-switch {
+    background: none;
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--text-color);
+}
+
+#lang-switch:hover {
+    background-color: var(--hover-bg);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+
+header h1 {
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.controls input, .controls select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th, td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+thead th {
+    background-color: var(--table-header-bg);
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+}
+
+thead th:hover {
+    background-color: var(--hover-bg);
+}
+
+tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+td a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+td a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    text-align: center;
+    margin-top: 2rem;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
