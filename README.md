@@ -1,5 +1,9 @@
 # IdeaForge
 
+<div align="center">
+  <img src="IdeaForge128.png" alt="IdeaForge Logo" width="128" height="128">
+</div>
+
 > 🚀 从技术文章中提取并开发的实用工具项目集合，致力于将优秀的技术理念转化为可用的开发工具
 
 [![GitHub stars](https://img.shields.io/github/stars/username/notion_storage?style=flat-square)](https://github.com/username/notion_storage/stargazers)
